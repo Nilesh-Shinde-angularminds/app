@@ -48,6 +48,24 @@
     <input type="range" id="feedback" v-model="formData.feedback" min="0" max="10" @change="validateFeedback">
     <span v-if="!feedbackValid && submitted" style="color: red;">Please select a valid feedback score between 1 and 10</span><br>
 
+    <!-- experiance -->
+    <div id="app">
+    <div v-for="(experience, index) in experiences" :key="index">
+      <label for="companyName">Company Name:</label>
+      <input type="text" v-model="experience.companyName" @change='validExperiance'>
+      <span v-if="!experience.companyNameValid && submitted" style="color: red;">Please enter a valid name</span><br>
+
+      <label for="experience">Experience:</label>
+      <input type="text" v-model="experience.experience" @change="validExperiance">
+
+      <button @click="removeExperience(index)">Remove</button>
+      <span v-if="!experience.experienceValid && submitted" style="color: red;">Please enter a valid name</span><br>
+    </div>
+
+    <button @click="addExperience">Add Experience</button>
+    <button @click='submitExperiace' >Submit experiance</button>
+
+  </div>
 
     <button type="submit" >Submit</button>
   </form>
@@ -76,6 +94,15 @@ export default {
       feedbackValid: true,
       formIsValid: false,
       submitted: false,
+      experiancesValid: true,
+      experiences: [
+        {
+          companyName: "",
+          experience: "",
+          companyNameValid: true,
+          experienceValid: true,
+        },
+      ],
     };
   },
 
@@ -88,6 +115,10 @@ export default {
   //     },
   //   },
   methods: {
+    submitExperiace() {
+      console.log(this.experiancesValid);
+      console.log(this.experiences);
+    },
     submitForm() {
       this.submitted = true;
       this.validateName();
@@ -137,6 +168,26 @@ export default {
     validateFeedback() {
       this.feedbackValid =
         this.formData.feedback >= 1 && this.formData.feedback <= 10;
+    },
+    addExperience() {
+      this.experiences.push({ companyName: "", experience: "" });
+    },
+    removeExperience(index) {
+      this.experiences.splice(index, 1);
+    },
+    validExperiance() {
+      // this.experiancesValid = this.experiences.every((experience) => {
+      //   return (
+      //     experience.companyName.trim() !== "" &&
+      //     experience.experience.trim() !== ""
+      //   );
+      // });
+      this.experiences = this.experiences.map((item) => ({
+        ...item,
+        companyNameValid: item.companyName.trim() !== "" ? true : false,
+        experienceValid: item.experience.trim() !== "" ? true : false,
+      }));
+      console.log(this.experiences);
     },
   },
 };
