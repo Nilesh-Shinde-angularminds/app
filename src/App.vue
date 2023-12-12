@@ -1,15 +1,19 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <Forms />
+  <div>
+    <Forms />
+    <VisibilityComponentVue />
+  </div>
 </template>
 
 <script>
 import Forms from "./components/Forms.vue";
+import VisibilityComponentVue from "./components/VisibilityComponent.vue";
 
 export default {
   name: "App",
   components: {
     Forms,
+    VisibilityComponentVue,
   },
 };
 </script>
